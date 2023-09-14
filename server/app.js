@@ -11,8 +11,8 @@ io.on("connection",(socket)=>{
         socket.broadcast.emit("user-disconnected",socket.id);
     })
 
-    socket.on("first:called",({to,from,name:callerName,signalData})=>{
-        io.to(to).emit("second:ack",{from,name:callerName,signal:signalData});
+    socket.on("callUser",({to,from,name:callerName,signalData})=>{
+        io.to(to).emit("callUser",{from,name:callerName,signal:signalData});
     })
 
     socket.on("second:call-accepted",(data)=>{

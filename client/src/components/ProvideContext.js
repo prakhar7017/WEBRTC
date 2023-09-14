@@ -9,7 +9,7 @@ const socket = io('http://localhost:8000');
 const ContextProvider = ({ children }) => {
     const [stream, setStream] = useState(); 
     const [myself, setMyself] = useState('');
-    const [call, setCall] = useState();
+    const [call, setCall] = useState({});
     const [callAccepted, setCallAccepted] = useState(false);
     const [callEnded, setCallEnded] = useState(false);
     const [name, setName] = useState('');
@@ -29,7 +29,7 @@ const ContextProvider = ({ children }) => {
                 setMyself(id);
             })
 
-            socket.on("second:ack",({from,name:callerName,signal})=>{
+            socket.on("callUser",({from,name:callerName,signal})=>{
                 setCall({isReceivedCall:true,from,name:callerName,signal});
             });
     },[])
@@ -64,7 +64,7 @@ const ContextProvider = ({ children }) => {
         })
 
         peer.on("signal",(data)=>{
-            socket.emit("first:called",{
+            socket.emit("callUser",{
                 to:id,
                 from:myself,
                 signalData:data,
